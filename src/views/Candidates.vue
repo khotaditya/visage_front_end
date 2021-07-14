@@ -226,6 +226,9 @@
 <script>
 import axios from "axios";
 import { required, email } from "vuelidate/lib/validators";
+import {
+        getBaseURL
+    } from "@/utilities";
 export default {
   name: "Candidates",
   data() {
@@ -322,7 +325,7 @@ export default {
     viewList() {
       this.table.loading = true;
       axios
-        .get("http://localhost:8081/get_candidate")
+        .get(getBaseURL() +"/get_candidate")
         .then((response) => {
           if (response.data.output == "success") {
             this.table.items = response.data.message;
@@ -344,7 +347,7 @@ export default {
         params: { id: item },
       };
       axios
-        .get("http://localhost:8081/get_cv", config)
+        .get(getBaseURL() +"/get_cv", config)
         .then((response) => {
           if (response.data.output == "success") {
             this.attachment = response.data.message.attachment;
@@ -398,7 +401,7 @@ export default {
         formData.append("email", registration.email);
         formData.append("job_title", registration.job_title);
         await axios
-          .post("http://localhost:8081/add_candidate", formData)
+          .post(getBaseURL() +"/add_candidate", formData)
           .then((res) => {
             if (res.data.output == "success") {
               this.loader = false;
